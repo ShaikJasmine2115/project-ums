@@ -1,24 +1,69 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+document.getElementById('login-toggle').addEventListener('click', function() {
+  document.getElementById('login-form').classList.add('active');
+  document.getElementById('register-form').classList.remove('active');
+});
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+document.getElementById('register-toggle').addEventListener('click', function() {
+  document.getElementById('register-form').classList.add('active');
+  document.getElementById('login-form').classList.remove('active');
+});
 
-setupCounter(document.querySelector('#counter'))
+document.getElementById('login-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const username = document.getElementById('login-username').value;
+  const password = document.getElementById('login-password').value;
+
+  authenticateUser(username, password);
+});
+
+document.getElementById('register-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const username = document.getElementById('register-username').value;
+  const email = document.getElementById('register-email').value;
+  const password = document.getElementById('register-password').value;
+  registerUser(username, email, password);
+});
+
+function authenticateUser(username, password) {
+  const errorMessage = document.getElementById('error-message');
+  fetch('https://dummyjson.com/users')
+      .then(response => response.json())
+      .then(data => {
+          const user = data.users.find(user => user.username === username && user.password === password);
+          if (user) {
+              if (user.role === 'admin') {
+                  window.location.href = "/src/postlogin.html"; 
+                  console.log("admin");
+              } else {
+                  window.location.href = "/src/postlogin.html";
+                  console.log("not admin");
+              }
+          } else {
+              document.getElementById('login').style.display = 'none';
+              errorMessage.innerHTML = `<p>Wrong username or password.</p>
+              <button onclick="resetForm()" style="display: block; margin: 10px auto;">Try Again</button>`;
+          }
+      })
+       .catch(error => console.error('Error:', error));
+}
+
+function resetForm() {
+  document.getElementById('login').style.display = 'block';
+   document.getElementById('login-form').reset();
+   document.getElementById('error-message').innerHTML = '';
+}
+function registerUser(username, email, password) {
+  console.log("registered1");
+  fetch('https://dummyjson.com/users', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, email, password }),
+  })
+      .then(response => response.json())
+      .then(data => {
+          console.log("registered2");
+      })
+      .catch(error => console.error('Error:', error));
+}
