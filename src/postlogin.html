@@ -4,9 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management System</title>
-    <link rel="stylesheet" href="postlogin.css">
+    <link rel="stylesheet" href="/src/postlogin.css">
 </head>
 <body>
-    <h1>Post login</h1>
+    <header>
+        <div class="navlist">
+        <nav>
+          <ul>
+            <li class="nav-item" data-info="Information about the system">About</li>
+            <li class="nav-item" data-info="View user details">View</li>
+            <li class="nav-item" data-info="Modify user information">Modify</li>
+            <li><button class="logout-button" onclick="showLogout()">Logout</button></li>
+  
+          </ul>
+        </nav>
+    </div>
+        <h1>USER MANAGEMENT SYSTEM</h1>
+      </header>
+      
+      
+
+      <div id="popup" style="display: none;">
+        <div class="logout-btn" id="logoutDiv" style="display: none;">
+            <h2>Are you sure you want to logout?</h2>
+            <div class="button-container">
+                <button class="logout-button" onclick="logout()">Logout</button>
+                <button class="close-button" onclick="closePopup()">Close</button>
+            </div>
+        </div>
+    </div>
+    <div id="overlay" style="display: none;" onclick="closePopup()"></div>
+    <footer>
+        &copy; 2024 Annalect. All Rights Reserved.
+    </footer>
+    <script src="/src/postlogin.js"></script>
 </body>
+
 </html>

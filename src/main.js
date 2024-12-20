@@ -32,9 +32,11 @@ function authenticateUser(username, password) {
           const user = data.users.find(user => user.username === username && user.password === password);
           if (user) {
               if (user.role === 'admin') {
+                sessionStorage.setItem("loggedIn", "true");
                   window.location.href = "/src/postlogin.html"; 
                   console.log("admin");
               } else {
+                sessionStorage.setItem("loggedIn", "true");
                   window.location.href = "/src/postlogin.html";
                   console.log("not admin");
               }
